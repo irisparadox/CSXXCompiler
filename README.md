@@ -2,16 +2,6 @@
 
 This project implements a **compiler** for a programming language called **ç++**. The language is a **C++-like** language, but with all its syntax and keywords written in **Catalan**. The goal of this project is to demonstrate the use of **JFLex** and **CUP** to create a lexical and syntactic analyzer for this custom language.
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Setup](#setup)
-- [How to Run](#how-to-run)
-- [File Structure](#file-structure)
-- [License](#license)
-
 ## Introduction
 
 ç++ is a new programming language designed to resemble C++, but with a twist: all the keywords, syntax, and error messages are written in **Catalan**. This includes basic programming structures such as loops, conditionals, and data types.
