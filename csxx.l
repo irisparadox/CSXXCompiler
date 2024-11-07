@@ -58,8 +58,6 @@ equals         = \=
 coma           = ,
 semi_colon     = ;
 dot            = .
-single_quote   = \'
-quote          = \"
 type_ident     = \-\>
 
 parenth_open   = \(
@@ -79,6 +77,8 @@ number_int     = [\+\-]?{whole_digit}
 number_float   = [\+\-]?{whole_digit}\.{decimal_digit}
 number_bin     = 0b{binary_digit}+
 number_hex     = 0x{hex_digit}+
+rval_char      = \'([a-zA-Z0-9]|[+\-*/&|^~!%]|\\[nrt'"])\'
+rval_char_arr  = \"([a-zA-Z0-9+\-*/&|^~!%]|\\[nrt'"])*\"
 
 uint8          = nat8
 uint16         = nat16
@@ -94,6 +94,8 @@ float32        = puntFlotant32
 float64        = puntFlotant64
 
 bool           = unUoUnZero
+true           = true
+false          = false
 
 char           = lletra
 uchar          = ulletra
@@ -138,8 +140,6 @@ function       = funcio
 {coma}              {return ops.coma_token();}
 {semi_colon}        {return ops.semi_colon_token();}
 {dot}               {return ops.dot_token();}
-{single_quote}      {return ops.single_quote_token();}
-{quote}             {return ops.quote_token();}
 {type_ident}        {return ops.type_ident_token();}
 
 {parenth_open}      {return ops.parenth_open_token();}
@@ -152,3 +152,44 @@ function       = funcio
 {separator}         {return ops.separator_token();}
 {comment}           {return ops.comment_token();}
 {block_comment}     {return ops.block_comment_token();}
+
+{identificator}     {return ops.identificator_token();}
+{number_nat}        {return ops.number_nat_token();}
+{number_int}        {return ops.number_int_token();}
+{number_float}      {return ops.number_float_token();}
+{number_bin}        {return ops.number_bin_token();}
+{number_hex}        {return ops.number_hex_token();}
+{rval_char}         {return ops.rval_char_token();}
+{rval_char_arr}     {return ops.rval_char_arr_token();}
+
+{uint8}             {return ops.uint8_token();} 
+{uint16}            {return ops.uint16_token();} 
+{uint32}            {return ops.uint32_token();} 
+{uint64}            {return ops.uint64_token();} 
+
+{int8}              {return ops.int8_token();} 
+{int16}             {return ops.int16_token();} 
+{int32}             {return ops.int32_token();} 
+{int64}             {return ops.int64_token();} 
+
+{float32}           {return ops.float32_token();} 
+{float64}           {return ops.float64_token();} 
+
+{bool}              {return ops.bool_token();} 
+{true}              {return ops.true_token();} 
+{false}             {return ops.false_token();} 
+
+{char}              {return ops.char_token();} 
+{uchar}             {return ops.uchar_token();} 
+
+{struct}            {return ops.struct_token();} 
+
+{if}                {return ops.if_token();} 
+{elseif}            {return ops.elseif_token();} 
+{else}              {return ops.else_token();} 
+
+{while}             {return ops.while_token();} 
+{for}               {return ops.for_token();} 
+{loop}              {return ops.loop_token();} 
+{cursor}            {return ops.cursor_token();} 
+{function}          {return ops.function_token();} 
