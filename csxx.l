@@ -50,7 +50,7 @@ coma           = ,
 semi_colon     = ;
 
 separator      = [ \t\r\b\n]
-comment        = //[^(\n | //)]*
+comment        = "//"[^(\n | "//")]*
 block_comment  = "/*"([^*] | \*+[^/])*\*+"/"
 
 identificator  = ({letter} | _)(_ | {letter} | {digit})*
