@@ -1,0 +1,111 @@
+package asint;
+
+import java_cup.runtime.*;
+import Lex.AnalizadorLexicoTiny;
+import Lex.UnidadLexica;
+import Errors.GestionErroresTiny;
+
+scan with {: return getScanner().next_token(); :};
+parser code {: 
+   private GestionErroresTiny errores;
+   public void syntax_error(Symbol unidadLexica) {
+     errores.errorSintactico((UnidadLexica)unidadLexica);
+   }
+:};
+init with {: 
+   errores = new GestionErroresTiny();
+   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
+   alex.fijaGestionErrores(errores);
+:};
+
+terminal OPERATOR_ADD;
+terminal OPERATOR_SUB;
+terminal OPERATOR_MULT;
+terminal OPERATOR_DIV;
+terminal OPERATOR_AND;
+terminal OPERATOR_OR;
+terminal OPERATOR_XOR;
+terminal OPERATOR_NOT;
+terminal OPERATOR_MOD;
+
+terminal OPERATOR_BAND;
+terminal OPERATOR_BOR;
+terminal OPERATOR_BNOT;
+terminal OPERATOR_EQUAL;
+terminal OPERATOR_NEQ;
+terminal OPERATOR_GT;
+terminal OPERATOR_LT;
+terminal OPERATOR_GEQ;
+terminal OPERATOR_LEQ;
+
+terminal OPERATOR_PP;
+terminal OPERATOR_MM;
+
+terminal EQUALS;
+terminal COMA;
+terminal SEMI_COLON;
+terminal DOT;
+terminal TYPE_IDENT;
+
+terminal PARENTH_OPEN;
+terminal PARENTH_CLOSE;
+terminal BRACKET_OPEN;
+terminal BRACKET_CLOSE;
+terminal CURLY_OPEN;
+terminal CURLY_CLOSE;
+
+terminal IDENTIFICATOR;
+terminal NUMBER_NAT;
+terminal NUMBER_INT;
+terminal NUMBER_FLOAT;
+terminal NUMBER_BIN;
+terminal NUMBER_HEX;
+terminal RVAL_CHAR;
+terminal RVAL_CHAR_ARR;
+
+terminal UINT8;
+terminal UINT16;
+terminal UINT32;
+terminal UINT64;
+
+terminal INT8;
+terminal INT16;
+terminal INT32;
+terminal INT64;
+
+terminal FLOAT32;
+terminal FLOAT64;
+
+terminal BOOL;
+terminal TRUE;
+terminal FALSE;
+
+terminal CHAR;
+terminal UCHAR;
+
+terminal STRUCT;
+
+terminal IF;
+terminal ELSEIF;
+terminal ELSE;
+
+terminal WHILE;
+terminal FOR;
+terminal LOOP;
+terminal CURSOR;
+terminal FUNCTION;
+
+non terminal S;
+non terminal DECLARATION;
+non terminal TYPE_UINT, TYPE_INT, TYPE_FLOAT;
+non terminal UINTDEC, INTDEC, FLOATDEC;
+
+S ::= DECLARATION;
+
+DECLARATION ::= UINTDEC | INTDEC | FLOATDEC;
+
+UINTDEC  ::= TYPE_UINT IDENTIFICATOR EQUALS NUMBER_NAT;
+INTDEC   ::= TYPE_INT IDENTIFICATOR EQUALS NUMBER_INT;
+FLOATDEC ::= TYPE_FLOAT IDENTIFICATOR EQUALS NUMBER_FLOAT;
+
+TYPE_UINT ::= UINT8 | UINT16 | UINT32 | UINT64;
