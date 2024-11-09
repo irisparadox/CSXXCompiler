@@ -1,4 +1,4 @@
-package alex;
+package lex;
 
 public class TokenValue {
     public String lexema;

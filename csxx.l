@@ -1,4 +1,4 @@
-package alex;
+package lex;
 
 %%
 %char
@@ -29,7 +29,7 @@ binary_digit   = [0-1]
 hex_digit      = ([0-9] | [A-F] | [a-f])
 digit          = ({unsignedDigit} | 0)
 whole_digit    = (({unsignedDigit}{digit}*) | 0)
-decimal_digit  = {digit}*
+decimal_digit  = {digit}+
 
 operator_add   = \+
 operator_sub   = \-
@@ -74,7 +74,7 @@ block_comment  = "/*"([^*] | \*+[^/])*\*+"/"
 identificator  = ({letter} | _)(_ | {letter} | {digit})*
 number_nat     = {whole_digit}
 number_int     = [\+\-]?{whole_digit}
-number_float   = [\+\-]?{whole_digit}\.{decimal_digit}
+number_float   = [\+\-]?{whole_digit}(\.{decimal_digit})?
 number_bin     = 0b{binary_digit}+
 number_hex     = 0x{hex_digit}+
 rval_char      = \'([a-zA-Z0-9]|[+\-*/&|^~!%]|\\[nrt'"])\'

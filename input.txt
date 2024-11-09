@@ -1,0 +1,4 @@
+sencer32 = -32;
+nat8 = 27;
+puntFlotant32 = 5.24;
+puntFlotant64 = -2;

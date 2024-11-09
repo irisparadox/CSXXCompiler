@@ -4,7 +4,7 @@
 // Fri Jan 28 18:16:13 CET 2022
 //----------------------------------------------------
 
-package asint;
+package syntax;
 
 /** CUP generated class containing symbol constants. */
 public class ClaseLexica {

@@ -4,11 +4,11 @@
 // Fri Jan 28 18:16:13 CET 2022
 //----------------------------------------------------
 
-package asint;
+package syntax;
 
 import java_cup.runtime.*;
-import alex.AnalizadorLexicoTiny;
-import alex.UnidadLexica;
+import lex.AnalizadorLexicoTiny;
+import lex.UnidadLexica;
 import errors.GestionErroresTiny;
 import java_cup.runtime.ComplexSymbolFactory.Location;
 
