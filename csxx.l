@@ -23,12 +23,12 @@ package lex;
   ops = new ALexOperations(this);
 %init}
 
-letter         = ([A-Z] | [a-z])
+letter         = ([A-Z]|[a-z])
 unsigned_digit = [1-9]
 binary_digit   = [0-1]
-hex_digit      = ([0-9] | [A-F] | [a-f])
-digit          = ({unsignedDigit} | 0)
-whole_digit    = (({unsignedDigit}{digit}*) | 0)
+hex_digit      = ([0-9]|[A-F]|[a-f])
+digit          = ({unsigned_digit}|0)
+whole_digit    = (({unsigned_digit}{digit}*)|0)
 decimal_digit  = {digit}+
 
 operator_add   = \+
@@ -57,7 +57,7 @@ operator_mm    = \-\-
 equals         = \=
 coma           = ,
 semi_colon     = ;
-dot            = .
+dot            = \.
 type_ident     = \-\>
 
 parenth_open   = \(
@@ -68,17 +68,17 @@ curly_open     = \{
 curly_close    = \}
 
 separator      = [ \t\r\b\n]
-comment        = "//"[^(\n | "//")]*
-block_comment  = "/*"([^*] | \*+[^/])*\*+"/"
+comment        = "//"[^(\n|"//")]*
+block_comment  = "/*"([^*]|\*+[^/])*\*+"/"
 
-identificator  = ({letter} | _)(_ | {letter} | {digit})*
+identificator  = ({letter}|_)(_|{letter}|{digit})*
 number_nat     = {whole_digit}
 number_int     = [\+\-]?{whole_digit}
 number_float   = [\+\-]?{whole_digit}(\.{decimal_digit})?
 number_bin     = 0b{binary_digit}+
 number_hex     = 0x{hex_digit}+
-rval_char      = \'([a-zA-Z0-9]|[+\-*/&|^~!%]|\\[nrt'"])\'
-rval_char_arr  = \"([a-zA-Z0-9+\-*/&|^~!%]|\\[nrt'"])*\"
+rval_char      = \'([a-zA-Z0-9]|[+\-*/&|\^~!%]|\\[nrt\'\"])\'
+rval_char_arr  = \"([a-zA-Z0-9+\-*/&|\^~!%]|\\[nrt\'\"])*\"
 
 uint8          = nat8
 uint16         = nat16
@@ -153,7 +153,6 @@ function       = funcio
 {comment}           {return ops.comment_token();}
 {block_comment}     {return ops.block_comment_token();}
 
-{identificator}     {return ops.identificator_token();}
 {number_nat}        {return ops.number_nat_token();}
 {number_int}        {return ops.number_int_token();}
 {number_float}      {return ops.number_float_token();}
@@ -192,4 +191,6 @@ function       = funcio
 {for}               {return ops.for_token();} 
 {loop}              {return ops.loop_token();} 
 {cursor}            {return ops.cursor_token();} 
-{function}          {return ops.function_token();} 
+{function}          {return ops.function_token();}
+
+{identificator}     {return ops.identificator_token();}

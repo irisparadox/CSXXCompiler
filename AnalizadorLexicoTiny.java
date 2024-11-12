@@ -7,7 +7,7 @@ package lex;
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
-public class AnalizadorLexicoTiny {
+class AnalizadorLexicoTiny {
 
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
