@@ -99,7 +99,6 @@ non terminal S;
 non terminal DECLARATION;
 non terminal TYPE_UINT, TYPE_INT, TYPE_FLOAT;
 non terminal UINTDEC, INTDEC, FLOATDEC;
-non terminal NUMERIC_ASIG_VAL;
 
 S ::= DECLARATION;
 
