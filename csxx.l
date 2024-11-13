@@ -1,18 +1,24 @@
 package lex;
 
+import errors.GestionErroresTiny;
+
 %%
-%char
+%cup
 %line
 %column
 %class AnalizadorLexicoTiny
-%type  UnidadLexica
 %unicode
+%public
 
 %{
   private ALexOperations ops;
+  private GestionErroresTiny errores;
   public String lexema() {return yytext();}
   public int fila() {return yyline+1;}
   public int columna() {return yycolumn+1;}
+  public void fijaGestionErrores(GestionErroresTiny errores) {
+   this.errores = errores;
+  }
 %}
 
 %eofval{
@@ -74,7 +80,7 @@ block_comment  = "/*"([^*]|\*+[^/])*\*+"/"
 identificator  = ({letter}|_)(_|{letter}|{digit})*
 number_nat     = {whole_digit}
 number_int     = [\+\-]?{whole_digit}
-number_float   = [\+\-]?{whole_digit}(\.{decimal_digit})?
+number_float   = [\+\-]?{whole_digit}\.{decimal_digit}
 number_bin     = 0b{binary_digit}+
 number_hex     = 0x{hex_digit}+
 rval_char      = \'([a-zA-Z0-9]|[+\-*/&|\^~!%]|\\[nrt\'\"])\'
@@ -149,9 +155,9 @@ function       = funcio
 {curly_open}        {return ops.curly_open_token();}
 {curly_close}       {return ops.curly_close_token();}
 
-{separator}         {return ops.separator_token();}
-{comment}           {return ops.comment_token();}
-{block_comment}     {return ops.block_comment_token();}
+{separator}         {}
+{comment}           {}
+{block_comment}     {}
 
 {number_nat}        {return ops.number_nat_token();}
 {number_int}        {return ops.number_int_token();}

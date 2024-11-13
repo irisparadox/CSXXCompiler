@@ -1,4 +1,4 @@
-sencer32 = -32;
-nat8 = 27;
-puntFlotant32 = 5.24;
-puntFlotant64 = -2;
+sencer32 _Myint32 = -32;
+nat8 _Myuint8 = 27;
+puntFlotant32 _Myfloat32 = 5.24;
+puntFlotant64 _Myfloat64 = -2.3;

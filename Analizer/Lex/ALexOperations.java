@@ -133,18 +133,6 @@ public class ALexOperations {
     return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.CURLY_CLOSE);
   }
 
-  public UnidadLexica separator_token() {
-    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.SEPARATOR);
-  }
-
-  public UnidadLexica comment_token() {
-    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.COMMENT);
-  }
-
-  public UnidadLexica block_comment_token() {
-    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.BLOCK_COMMENT);
-  }
-
   public UnidadLexica identificator_token() {
     return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.IDENTIFICATOR, alex.lexema());
   }
