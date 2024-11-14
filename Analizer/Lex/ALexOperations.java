@@ -133,6 +133,10 @@ public class ALexOperations {
     return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.CURLY_CLOSE);
   }
 
+  public UnidadLexica void_token() {
+    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.VOID, alex.lexema());
+  }
+
   public UnidadLexica identificator_token() {
     return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.IDENTIFICATOR, alex.lexema());
   }

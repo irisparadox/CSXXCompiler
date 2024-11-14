@@ -81,10 +81,12 @@ identificator  = ({letter}|_)(_|{letter}|{digit})*
 number_nat     = {whole_digit}
 number_int     = [\+\-]?{whole_digit}
 number_float   = [\+\-]?{whole_digit}\.{decimal_digit}
-number_bin     = 0b{binary_digit}+
-number_hex     = 0x{hex_digit}+
+number_bin     = [\+\-]?0b{binary_digit}+
+number_hex     = [\+\-]?0x{hex_digit}+
 rval_char      = \'([a-zA-Z0-9]|[+\-*/&|\^~!%]|\\[nrt\'\"])\'
 rval_char_arr  = \"([a-zA-Z0-9+\-*/&|\^~!%]|\\[nrt\'\"])*\"
+
+void           = buit
 
 uint8          = nat8
 uint16         = nat16
@@ -166,6 +168,8 @@ function       = funcio
 {number_hex}        {return ops.number_hex_token();}
 {rval_char}         {return ops.rval_char_token();}
 {rval_char_arr}     {return ops.rval_char_arr_token();}
+
+{void}              {return ops.void_token();}
 
 {uint8}             {return ops.uint8_token();} 
 {uint16}            {return ops.uint16_token();} 

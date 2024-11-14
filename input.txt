@@ -1,4 +1,12 @@
-sencer32 _Myint32 = -32;
-nat8 _Myuint8 = 27;
+sencer32 _Myint32 	 = -32;
+nat8 _Myuint8 		 = 27;
 puntFlotant32 _Myfloat32 = 5.24;
 puntFlotant64 _Myfloat64 = -2.3;
+
+sencer8 _______a	 = -0x7a;
+
+conjunt _MyStruct [
+	sencer32 a = 5;
+	conjunt _Struct2 [ unUoUnZero _Mybool = true; ];
+	lletra ______ = 'a';
+];
