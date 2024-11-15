@@ -19,3 +19,9 @@ conjunt _MyStruct [
 _Myint32 = 5;
 _Myint32 = _Myint32 * 2 + 7;
 _Myint32 = ++_Myint32;
+
+conjunt A [
+	conjunt B [
+		conjunt C [];
+	];
+];
