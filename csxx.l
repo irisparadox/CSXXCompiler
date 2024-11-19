@@ -83,8 +83,8 @@ number_int     = [\+\-]?{whole_digit}
 number_float   = [\+\-]?{whole_digit}\.{decimal_digit}
 number_bin     = [\+\-]?0b{binary_digit}+
 number_hex     = [\+\-]?0x{hex_digit}+
-rval_char      = \'([a-zA-Z0-9]|[+\-*/&|\^~!%]|\\[nrt\'\"])\'
-rval_char_arr  = \"([a-zA-Z0-9+\-*/&|\^~!%]|\\[nrt\'\"])*\"
+rval_char      = \'([^\'\\]|\\[\'\\bfnrt])\'
+rval_char_arr  = \"([^\"\\]|\\[\"\\bfnrt])*\"
 
 void           = buit
 
