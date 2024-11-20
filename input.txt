@@ -28,3 +28,5 @@ conjunt A [
 
 sencer32[5] _Myarr = { 1, 2, 3, 4, 5 };
 lletra[18] _Mystring = "hola buenas tardes";
+
+unUoUnZero _Bool = _Myint32 && _Myuint8;

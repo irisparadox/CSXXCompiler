@@ -3,9 +3,14 @@ package syntax;
 import java_cup.runtime.*;
 import lex.AnalizadorLexicoTiny;
 import lex.UnidadLexica;
+import lex.TokenValue;
 import errors.GestionErroresTiny;
+import ast.*;
 
 scan with {: return getScanner().next_token(); :};
+//action code {:
+//   ... add some code to declare and initialize e.g. variables used by the code embedded in the grammar
+//:};
 parser code {: 
    private GestionErroresTiny errores;
    public void syntax_error(Symbol unidadLexica) {
@@ -99,8 +104,9 @@ terminal FUNCTION;
 non terminal S, INSTRUCTIONS, INSTRUCTION;
 non terminal DECLARATIONS, DECLARATION, ASSIGNATION, ARRASSIGN;
 non terminal TYPEDEC, STRUCTDEC, ARRDEC;
-non terminal EXP0, EXP1, EXP2, EXP3, EXP4, EXP5, EXP6, EXP7;
-non terminal VALUE, TYPES, ARRCONTENTS, MORE_ARRCONTENTS, ARRCONTENT;
+non terminal E EXP0, EXP1, EXP2, EXP3, EXP4, EXP5, EXP6, EXP7;
+non terminal Num VALUE;
+non terminal TYPES, ARRCONTENTS, MORE_ARRCONTENTS, ARRCONTENT;
 
 S ::= INSTRUCTIONS ;
 
@@ -117,17 +123,76 @@ ARRDEC    ::= TYPES BRACKET_OPEN NUMBER_NAT BRACKET_CLOSE IDENTIFICATOR SEMI_COL
 
 ARRASSIGN ::= CURLY_OPEN ARRCONTENTS CURLY_CLOSE | RVAL_CHAR_ARR ;
 
-ARRCONTENTS      ::= ARRCONTENT MORE_ARRCONTENTS | /* EMPTY */ ;
-MORE_ARRCONTENTS ::= COMA ARRCONTENT MORE_ARRCONTENTS | /* EMPTY */ ;
+ARRCONTENTS      ::= ARRCONTENT MORE_ARRCONTENTS | /* EPSILON */ ;
+MORE_ARRCONTENTS ::= COMA ARRCONTENT MORE_ARRCONTENTS | /* EPSILON */ ;
 ARRCONTENT       ::= VALUE | IDENTIFICATOR ;
 
-EXP0 ::= EXP1 OPERATOR_BAND EXP0 | EXP1 OPERATOR_BOR EXP0 | EXP1 OPERATOR_EQUAL EXP0 | EXP1 OPERATOR_NEQ EXP0 | EXP1 ;
-EXP1 ::= OPERATOR_BNOT EXP2 | EXP2 ;
-EXP2 ::= EXP3 OPERATOR_GT EXP2 | EXP3 OPERATOR_LT EXP2 | EXP3 OPERATOR_GEQ EXP2 | EXP3 OPERATOR_LEQ EXP2 | EXP3 ;
-EXP3 ::= EXP4 OPERATOR_ADD EXP3 | EXP4 OPERATOR_SUB EXP3 | EXP4 ;
-EXP4 ::= EXP5 OPERATOR_MULT EXP4 | EXP5 OPERATOR_DIV EXP4 | EXP5 OPERATOR_MOD EXP4 | EXP5 ;
-EXP5 ::= EXP6 OPERATOR_AND EXP5 | EXP6 OPERATOR_OR EXP5 | EXP6 OPERATOR_XOR EXP5 | OPERATOR_NOT EXP6 | EXP6 ;
-EXP6 ::= OPERATOR_PP EXP6 | OPERATOR_MM EXP6 | EXP7 OPERATOR_PP | EXP7 OPERATOR_MM | EXP7 ;
+
+EXP0 ::= EXP1: Val_Exp1 OPERATOR_BAND EXP0: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.BAND); :};
+EXP0 ::= EXP1: Val_Exp1 OPERATOR_BOR EXP0: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.BOR); :};
+EXP0 ::= EXP1: Val_Exp1 OPERATOR_EQUAL EXP0: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.EQUAL); :};
+EXP0 ::= EXP1: Val_Exp1 OPERATOR_NEQ EXP0: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.NEQ); :};
+EXP0 ::= EXP1 ;
+
+
+EXP1 ::= OPERATOR_BNOT EXP2: Val_Exp
+         {: RESULT = new EUni(Val_Exp, UniOps.BNOT); :};
+EXP1 ::= EXP2 ;
+
+
+EXP2 ::= EXP3: Val_Exp1 OPERATOR_GT EXP2: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.GT); :};
+EXP2 ::= EXP3: Val_Exp1 OPERATOR_LT EXP2: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.LT); :};
+EXP2 ::= EXP3: Val_Exp1 OPERATOR_GEQ EXP2: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.GEQ); :};
+EXP2 ::= EXP3: Val_Exp1 OPERATOR_LEQ EXP2: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.LEQ); :};
+EXP2 ::= EXP3 ;
+
+
+EXP3 ::= EXP4: Val_Exp1 OPERATOR_ADD EXP3: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.PLUS); :};
+EXP3 ::= EXP4: Val_Exp1 OPERATOR_SUB EXP3: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.MINUS); :};
+EXP3 ::= EXP4 ;
+
+
+EXP4 ::= EXP5: Val_Exp1 OPERATOR_MULT EXP4: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.MULT); :};
+EXP4 ::= EXP5: Val_Exp1 OPERATOR_DIV EXP4: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.DIV); :};
+EXP4 ::= EXP5: Val_Exp1 OPERATOR_MOD EXP4: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.MOD); :};
+EXP4 ::= EXP5 ;
+
+
+EXP5 ::= EXP6: Val_Exp1 OPERATOR_AND EXP5: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.AND); :};
+EXP5 ::= EXP6: Val_Exp1 OPERATOR_OR EXP5: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.OR); :};
+EXP5 ::= EXP6: Val_Exp1 OPERATOR_XOR EXP5: Val_Exp0
+         {: RESULT = new EBin(Val_Exp1, Val_Exp0, BinOps.XOR); :}; 
+EXP5 ::= OPERATOR_NOT EXP6: Val_Exp
+         {: RESULT = new EUni(Val_Exp, UniOps.NOT); :};
+EXP5 ::= EXP6 ;
+
+
+EXP6 ::= OPERATOR_PP EXP6: Val_Exp
+         {: RESULT = new EUni(Val_Exp, UniOps.PP_PRE); :};
+EXP6 ::= OPERATOR_MM EXP6: Val_Exp
+         {: RESULT = new EUni(Val_Exp, UniOps.MM_PRE); :};
+EXP6 ::= EXP7: Val_Exp OPERATOR_PP
+         {: RESULT = new EUni(Val_Exp, UniOps.PP_POST); :};
+EXP6 ::= EXP7: Val_Exp OPERATOR_MM
+         {: RESULT = new EUni(Val_Exp, UniOps.MM_POST); :};
+EXP6 ::= EXP7 ;
+
+
 EXP7 ::= VALUE | IDENTIFICATOR | PARENTH_OPEN EXP0 PARENTH_CLOSE ;
 
 VALUE ::= NUMBER_NAT | NUMBER_INT | NUMBER_FLOAT | NUMBER_BIN | NUMBER_HEX | RVAL_CHAR | RVAL_CHAR_ARR | TRUE | FALSE ;

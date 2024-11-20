@@ -1,5 +1,5 @@
 package ast;
 
-public enum BinOps {
-    NOT, BNOT, PP, MM
+public enum UniOps {
+    NOT, BNOT, PP_POST, MM_POST, PP_PRE, MM_PRE
 }
