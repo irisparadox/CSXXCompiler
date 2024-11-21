@@ -1,0 +1,21 @@
+What is done:
+
+	* Lexical Analyzer
+	* Syntax:
+	    - Variable declaration & assignation
+	    - Struct declaration & assignation
+	    - Array declaration & assignation
+	    - Function headers & body
+	    - Expressions
+	* AST:
+	    - Expression return values, and types
+
+TO-DO:
+
+	* Syntax:
+	    - Function return value
+	    - if-else case statements
+	    - for loop, while loop & cursor loop
+	* AST:
+	    - Types & type casting
+	    - Scopes
