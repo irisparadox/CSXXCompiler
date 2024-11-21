@@ -10,6 +10,7 @@ public class EBin extends E {
       this.opnd2 = opnd2;
       this.op = op;
       this.kind = KindE.BINEXPR;
+      System.out.println(this.toString());
     }
     public KindE kind() {return this.kind;}
     public E opnd1() {return opnd1;}

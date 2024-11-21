@@ -214,11 +214,11 @@ public class ALexOperations {
   }
 
   public UnidadLexica true_token() {
-    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.TRUE);
+    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.TRUE_, alex.lexema());
   }
 
   public UnidadLexica false_token() {
-    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.FALSE);
+    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.FALSE_, alex.lexema());
   }
 
   public UnidadLexica char_token() {

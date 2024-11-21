@@ -8,6 +8,7 @@ public class EUni extends E {
       this.opnd1 = opnd1;
       this.op = op;
       this.kind = KindE.UNIEXPR;
+      System.out.println(this.toString());
     }
     public KindE kind() {return this.kind;}
     public E opnd1() {return opnd1;} 

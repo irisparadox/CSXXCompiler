@@ -30,3 +30,9 @@ sencer32[5] _Myarr = { 1, 2, 3, 4, 5 };
 lletra[18] _Mystring = "hola buenas tardes";
 
 unUoUnZero _Bool = _Myint32 && _Myuint8;
+
+funcio my_function(sencer32 x) -> sencer64;
+
+funcio my_function(sencer32 x) -> sencer64 {
+	sencer32 _My_int = 5;
+}
