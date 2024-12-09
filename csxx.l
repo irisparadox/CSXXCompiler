@@ -112,7 +112,8 @@ struct         = conjunt
 
 if             = enCasDe
 elseif         = enAltreCas
-else           = si no
+else1          = si
+else2          = no
 
 while          = mentres
 for            = per
@@ -195,7 +196,8 @@ function       = funcio
 
 {if}                {return ops.if_token();} 
 {elseif}            {return ops.elseif_token();} 
-{else}              {return ops.else_token();} 
+{else1}             {return ops.else1_token();} 
+{else2}             {return ops.else2_token();} 
 
 {while}             {return ops.while_token();} 
 {for}               {return ops.for_token();} 

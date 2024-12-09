@@ -6,6 +6,7 @@ import lex.UnidadLexica;
 import lex.TokenValue;
 import errors.GestionErroresTiny;
 import ast.*;
+import java.util.ArrayList;
 
 scan with {: return getScanner().next_token(); :};
 //action code {:
@@ -93,7 +94,8 @@ terminal STRUCT;
 
 terminal IF;
 terminal ELSEIF;
-terminal ELSE;
+terminal ELSE1;
+terminal ELSE2;
 
 terminal WHILE;
 terminal FOR;
@@ -101,29 +103,44 @@ terminal LOOP;
 terminal CURSOR;
 terminal FUNCTION;
 
-non terminal S, INSTRUCTION_OR_FUNCTION, INSTRUCTIONS, INSTRUCTION, _FUNCTION;
+non terminal ArrayList<Instruction> S, INSTRUCTION_OR_FUNCTION;
+non terminal ArrayList<Instruction> INSTRUCTIONS;
+non terminal Instruction INSTRUCTION;
+non terminal _FUNCTION;
 non terminal DECLARATIONS, DECLARATION, F_PARAMETERS, MORE_F_PARAMETERS, F_PARAMETER, F_ARGUMENTS, MORE_F_ARGUMENTS, F_ARGUMENT;
 non terminal Instruction  ASSIGNATION, ARRASSIGN;
 non terminal Sif0, Sif1, Sif2 ;
+non terminal Instruction WHILE_LOOP;
 non terminal TYPEDEC, STRUCTDEC, ARRDEC, F_HEADER, F_BODY, F_CALL;
 non terminal E EXP0, EXP1, EXP2, EXP3, EXP4, EXP5, EXP6, EXP7;
 non terminal Num VALUE;
 non terminal TYPES, ARRCONTENTS, MORE_ARRCONTENTS, ARRCONTENT;
 
-S ::= INSTRUCTION_OR_FUNCTION ;
+S ::= INSTRUCTION_OR_FUNCTION: Val_Is
+      {: RESULT = Val_Is; :};
 
 INSTRUCTION_OR_FUNCTION ::= INSTRUCTION: Val_I
                             {: ArrayList<Instruction> instrs = new ArrayList<Instruction>();
                                instrs.add(Val_I);
                                RESULT = instrs;
                             :};
-INSTRUCTION_OR_FUNCTION ::= _FUNCTION | _FUNCTION INSTRUCTION_OR_FUNCTION ;
-INSTRUCTION_OR_FUNCTION ::= INSTRUCTION: Val_I INSTRUCTION_OR_FUNCTION: Val_Is
+// INSTRUCTION_OR_FUNCTION ::= _FUNCTION | _FUNCTION INSTRUCTION_OR_FUNCTION ;
+INSTRUCTION_OR_FUNCTION ::= INSTRUCTION_OR_FUNCTION: Val_Is INSTRUCTION: Val_I 
                             {: Val_Is.add(Val_I);
                                RESULT = Val_Is;
                             :};
 
-INSTRUCTIONS ::= INSTRUCTIONS INSTRUCTION | INSTRUCTION ;
+INSTRUCTIONS ::= INSTRUCTIONS: Val_Is INSTRUCTION: Val_I 
+                 {: Val_Is.add(Val_I);
+                    RESULT = Val_Is;
+                 :};
+INSTRUCTIONS ::= INSTRUCTION: Val_I
+                 {: ArrayList<Instruction> instrs = new ArrayList<Instruction>();
+                    instrs.add(Val_I);
+                    RESULT = instrs;
+                 :};
+INSTRUCTION ::= WHILE_LOOP: Val_I
+                {: RESULT = Val_I; :};
 INSTRUCTION ::= DECLARATION SEMI_COLON | F_CALL SEMI_COLON | Sif0 ;
 INSTRUCTION ::= ASSIGNATION: Val_A SEMI_COLON
                 {: RESULT = Val_A; :};
@@ -131,7 +148,10 @@ INSTRUCTION ::= ASSIGNATION: Val_A SEMI_COLON
 
 Sif0 ::= IF PARENTH_OPEN EXP0 PARENTH_CLOSE CURLY_OPEN INSTRUCTIONS CURLY_CLOSE Sif1 Sif2 ;
 Sif1 ::= /* EPSILON */ | ELSEIF PARENTH_OPEN EXP0 PARENTH_CLOSE CURLY_OPEN INSTRUCTIONS CURLY_CLOSE Sif1 ;
-Sif2 ::= /* EPSILON */ | ELSE CURLY_OPEN INSTRUCTIONS CURLY_CLOSE ;
+Sif2 ::= /* EPSILON */ | ELSE1 ELSE2 CURLY_OPEN INSTRUCTIONS CURLY_CLOSE ;
+
+WHILE_LOOP ::= WHILE PARENTH_OPEN EXP0: Val_Exp PARENTH_CLOSE CURLY_OPEN INSTRUCTIONS: Val_Is CURLY_CLOSE
+               {: RESULT = new While(Val_Exp, Val_Is); :};
 
 _FUNCTION ::= F_BODY | F_HEADER ;
 

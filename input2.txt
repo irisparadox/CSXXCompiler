@@ -1,0 +1,11 @@
+arr = 5;
+suma = 10 + 5 * 20 / arr ;
+
+arr = 5 && 10;
+
+mentres (1) {
+	suma = ++suma;
+	mentres (arr < 10) {
+		suma = 10;
+	}
+}

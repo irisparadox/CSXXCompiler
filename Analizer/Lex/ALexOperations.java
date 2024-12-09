@@ -241,8 +241,12 @@ public class ALexOperations {
     return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.ELSEIF);
   }
 
-  public UnidadLexica else_token() {
-    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.ELSE);
+  public UnidadLexica else1_token() {
+    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.ELSE1);
+  }
+
+  public UnidadLexica else2_token() {
+    return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.ELSE2);
   }
 
   public UnidadLexica while_token() {

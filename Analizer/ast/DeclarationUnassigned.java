@@ -11,6 +11,6 @@ public class DeclarationUnassigned extends Instruction {
         return KindI.DECLARATION_UNASSIGNED;
     }
     public String toString() {
-        return "UNASSIGNED DEC: " + _type.toString() + " " + iden;
+        return "UNASSIGNED DEC: " + type.toString() + " " + iden;
     }
 }
