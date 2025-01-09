@@ -11,6 +11,6 @@ public class Assignation extends Instruction {
         return KindI.ASSIGNATION;
     }
     public String toString() {
-        return "ASSIGNATION: " + iden + " = " + expr.toString();
+        return "\nASSIGNATION: " + iden + " = " + expr.toString();
     }
 }

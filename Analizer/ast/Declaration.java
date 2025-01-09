@@ -13,6 +13,6 @@ public class Declaration extends Instruction {
         return KindI.DECLARATION;
     }
     public String toString() {
-        return "DEC: " + type.toString() + " " + iden + " = " + exp.toString();
+        return "\nDEC: " + type.toString() + " " + iden + " = " + exp.toString();
     }
 }

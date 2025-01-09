@@ -4,8 +4,27 @@ suma = 10 + 5 * 20 / arr ;
 arr = 5 && 10;
 
 mentres (1) {
-	suma = ++suma;
+	++suma;
 	mentres (arr < 10) {
 		suma = 10;
 	}
 }
+
+per (suma <= 10; ++suma) {
+	arr = arr & 2;
+}
+
+enCasDe(suma <= 2) {
+	suma++;
+	enCasDe(arr || suma) {
+		suma = suma & arr;
+	}
+} enAltreCas(suma == 2) {
+	suma--;
+} enAltreCas(suma >= 2) {
+	suma = 2;
+} si no {
+	suma = 0;
+}
+
+arr[10];
