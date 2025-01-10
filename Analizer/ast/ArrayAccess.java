@@ -1,19 +1,23 @@
 package ast;
 
+import java.util.LinkedList;
+
 public class ArrayAccess extends E {
-    private ArrayIdentificator array;
-    private E index;
+    private String array;
+    private LinkedList<E> indices;
 
-    public ArrayAccess(ArrayIdentificator array, E index) {
+    public ArrayAccess(String array, LinkedList<E> indices) {
         this.array = array;
-        this.index = index;
+        this.indices = indices;
     }
 
-    public Num evaluate() {
-        return array.getValueAt(Integer.parseInt(index.num()));
-    }
+    public KindE kind() {return KindE.ARRAY;}   
+    public String toString() {
+        String header = array;
+        for(E expr : indices) {
+            header += "[" + expr.toString() + "]";
+        }
 
-    public String num() {return evaluate().num();}
-    public KindE kind() {return KindE.NUM;}   
-    public String toString() {return array.name() + "[" + index + "] = " + evaluate().num();} 
+        return header;
+    } 
 }
