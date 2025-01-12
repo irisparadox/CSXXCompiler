@@ -11,6 +11,15 @@ public class If extends Instruction {
         this.next = next;
         this.body = body;
     }
+
+    public void bind() {
+        for(Instruction ins : body) {
+            ins.bind();
+        }
+        next.bind();
+        exp.bind();
+    }
+
     public KindI kind() {
         return KindI.IF;
     }

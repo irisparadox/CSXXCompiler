@@ -2,6 +2,8 @@ package ast;
 
 import java.util.LinkedList;
 
+import javax.management.RuntimeErrorException;
+
 public class ArrayDeclarationUnassigned extends Instruction {
     String iden;
     Types type;
@@ -11,6 +13,14 @@ public class ArrayDeclarationUnassigned extends Instruction {
         this.type = _type;
         this.indices = indices;
     }
+
+    public Symbol bind(SymbolTable table) {
+        if(table.lookup(iden) != null) {
+            throw new RuntimeErrorException("Variable '" + iden + "' was already declared in this scope!");
+        }
+        table.add_symbol(iden, type, null);
+    }
+    
     public KindI kind() {
         return KindI.ARRAY_UNAS;
     }

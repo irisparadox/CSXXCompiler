@@ -6,6 +6,6 @@ public class EmptyScope extends Instruction {
         return KindI.EMPTY_SCOPE;
     }
     public String toString() {
-        return "EMPTY SCOPE";
+        return "\nEMPTY SCOPE";
     }
 }

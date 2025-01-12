@@ -1,5 +1,7 @@
 package ast;
 
+import javax.management.RuntimeErrorException;
+
 public class Assignation extends Instruction {
     String iden;
     E expr;
@@ -7,6 +9,14 @@ public class Assignation extends Instruction {
         this.iden = ident;
         this.expr = exp;
     }
+
+    public Symbol bind(SymbolTable table) {
+        if(table.lookup(iden) != null) {
+            throw new RuntimeErrorException("Variable '" + iden + "' was already declared in this scope!");
+        }
+        table.add_symbol(iden, this);
+    }
+
     public KindI kind() {
         return KindI.ASSIGNATION;
     }

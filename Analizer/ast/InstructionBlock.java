@@ -7,15 +7,22 @@ public class InstructionBlock extends Instruction {
     public InstructionBlock(ArrayList<Instruction> instructions) {
         this.instructions = instructions;
     }
+
+    public void bind(SymbolTable table) {
+        for(Instruction i : instructions) {
+            i.bind();
+        }
+    }
+
     public KindI kind() {
         return KindI.BLOCK;
     }
     public String toString() {
-        String header = "\nSCOPE: {\n";
+        String header = "\nSCOPE: {";
         for(Instruction i : instructions) {
-            header += i + "\n";
+            header += i;
         }
-        header += "}";
-        return header;
+        header += "\n}";
+        return header;  
     }
 }
