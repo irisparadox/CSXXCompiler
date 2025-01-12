@@ -170,7 +170,7 @@ INSTRUCTIONS ::= INSTRUCTION: Val_I
                     RESULT = instrs;
                  :};
 INSTRUCTION ::= WHILE_LOOP: Val_I
-                {: RESULT = Val_I; :};
+                {: Val_I.bind(); RESULT = Val_I; :};
 INSTRUCTION ::= FOR_LOOP: Val_I
                 {: RESULT = Val_I; :};
 INSTRUCTION ::= DECLARATION: Val_I SEMI_COLON
