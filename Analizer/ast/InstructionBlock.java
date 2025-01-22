@@ -8,10 +8,12 @@ public class InstructionBlock extends Instruction {
         this.instructions = instructions;
     }
 
-    public void bind(SymbolTable table) {
+    public void bind(TableStack table, ArrayList<String> binding_errors) {
+        table.push();
         for(Instruction i : instructions) {
-            i.bind();
+            i.bind(table, binding_errors);
         }
+        table.pop();
     }
 
     public KindI kind() {

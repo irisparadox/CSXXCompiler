@@ -1,6 +1,6 @@
 package ast;
 
-import javax.management.RuntimeErrorException;
+import java.util.ArrayList;
 
 public class Assignation extends Instruction {
     String iden;
@@ -10,17 +10,18 @@ public class Assignation extends Instruction {
         this.expr = exp;
     }
 
-    public Symbol bind(SymbolTable table) {
-        if(table.lookup(iden) != null) {
-            throw new RuntimeErrorException("Variable '" + iden + "' was already declared in this scope!");
+    public void bind(TableStack table, ArrayList<String> binding_errors) {
+        if(table.lookup(iden) == null) {
+            binding_errors.add("Ç3000: Variable \'" + iden + "\' was not declared in this scope.");
+            binding_errors.add("   At:" + this.toString().replace('\n', ' '));            
         }
-        table.add_symbol(iden, this);
+        expr.bind(table, binding_errors);
     }
 
     public KindI kind() {
         return KindI.ASSIGNATION;
     }
     public String toString() {
-        return "\nASSIGNATION: " + iden + " = " + expr.toString();
+        return "\n" + iden + " = " + expr.toString();
     }
 }

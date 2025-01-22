@@ -12,12 +12,14 @@ public class If extends Instruction {
         this.body = body;
     }
 
-    public void bind() {
+    public void bind(TableStack table, ArrayList<String> binding_errors) {
+        exp.bind(table, binding_errors);
+        table.push();
         for(Instruction ins : body) {
-            ins.bind();
+            ins.bind(table, binding_errors);
         }
-        next.bind();
-        exp.bind();
+        next.bind(table, binding_errors);
+        table.pop();
     }
 
     public KindI kind() {

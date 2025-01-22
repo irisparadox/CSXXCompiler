@@ -1,4 +1,5 @@
 package ast;
+import java.util.ArrayList;
 
 public class EUni extends E {
     private E opnd1;
@@ -8,12 +9,23 @@ public class EUni extends E {
       this.opnd1 = opnd1;
       this.op = op;
       this.kind = KindE.UNIEXPR;
-      System.out.println(this.toString());
+    }
+    public void bind(TableStack table, ArrayList<String> binding_errors) {
+      opnd1.bind(table, binding_errors);
     }
     public KindE kind() {return this.kind;}
     public E opnd1() {return opnd1;} 
     public UniOps get_op() {return op;}
     public String toString() {
-        return op.toString() + "(" + opnd1.toString() + ")";
+        String opstr = "";
+        switch(op) {
+          case NOT:     opstr = "\n~" + opnd1.toString(); break;
+          case BNOT:    opstr = "\n!" + opnd1.toString(); break;
+          case PP_POST: opstr = "\n" + opnd1.toString() + "++"; break;
+          case MM_POST: opstr = "\n" + opnd1.toString() + "--"; break;
+          case PP_PRE:  opstr = "\n++" + opnd1.toString(); break;
+          case MM_PRE:  opstr = "\n--" + opnd1.toString(); break;
+        }
+        return opstr;
     }
  }

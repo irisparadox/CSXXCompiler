@@ -10,7 +10,7 @@ public class TableStack {
         stack.push(new SymbolTable());
     }
 
-    public void push(String id, Symbol symbol) {
+    public void push() {
         stack.push(new SymbolTable());
     }
 
@@ -18,14 +18,14 @@ public class TableStack {
         stack.pop();
     }
 
-    public void add_id(String id, Symbol symbol) {
-        stack.peek().put(id, symbol);
+    public void add_id(String id, UnitSymbol symbol) {
+        stack.peek().add_symbol(id, symbol);;
     }
 
-    public Symbol lookup(String id) {
+    public UnitSymbol lookup(String id) {
         for(int i = stack.size() - 1; i >= 0; --i) {
             SymbolTable table = stack.get(i);
-            Symbol symbol = table.get(id);
+            UnitSymbol symbol = table.lookup(id);
             if(symbol != null) {
                 return symbol;
             }

@@ -1,8 +1,7 @@
 package ast;
 
 import java.util.LinkedList;
-
-import javax.management.RuntimeErrorException;
+import java.util.ArrayList;
 
 public class ArrayDeclarationUnassigned extends Instruction {
     String iden;
@@ -14,18 +13,20 @@ public class ArrayDeclarationUnassigned extends Instruction {
         this.indices = indices;
     }
 
-    public Symbol bind(SymbolTable table) {
+    public void bind(TableStack table, ArrayList<String> binding_errors) {
         if(table.lookup(iden) != null) {
-            throw new RuntimeErrorException("Variable '" + iden + "' was already declared in this scope!");
+            binding_errors.add("Ç3001: Variable '" + iden + "' was already declared in this scope.");
+            binding_errors.add("   At:" + this.toString().replace('\n', ' '));
+            return;
         }
-        table.add_symbol(iden, type, null);
+        table.add_id(iden, new UnitSymbol(iden, this));
     }
     
     public KindI kind() {
         return KindI.ARRAY_UNAS;
     }
     public String toString() {
-        String header = "\nARR_UNAS: " + type.toString() + " " + iden;
+        String header = "\n" + type.toString() + " " + iden;
         for(E expr : indices) {
             header += "[" + expr.toString() + "]";
         }

@@ -3,17 +3,17 @@ package ast;
 import java.util.HashMap;
 
 public class SymbolTable {
-    private HashMap<String, Symbol> table;
+    private HashMap<String, UnitSymbol> table;
 
     public SymbolTable() {
         this.table = new HashMap<>();
     }
 
-    public void add_symbol(String id, Types type) {
-        table.put(id, new Symbol(id, type));
+    public void add_symbol(String id, UnitSymbol symbol) {
+        table.put(id, symbol);
     }
 
-    public Symbol lookup(String id) {
+    public UnitSymbol lookup(String id) {
         return table.get(id);
     }
 

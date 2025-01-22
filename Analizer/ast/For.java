@@ -10,6 +10,15 @@ public class For extends Instruction {
         this.exp2 = exp2;
         this.instructions = insts;
     }
+    public void bind(TableStack table, ArrayList<String> binding_errors) {
+        exp1.bind(table, binding_errors);
+        exp2.bind(table, binding_errors);
+        table.push();
+        for(Instruction i : instructions) {
+            i.bind(table, binding_errors);
+        }
+        table.pop();
+    }
     public KindI kind() {
         return KindI.FOR;
     }

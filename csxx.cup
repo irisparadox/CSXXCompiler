@@ -15,7 +15,6 @@ scan with {: return getScanner().next_token(); :};
 //:};
 parser code {: 
    private GestionErroresTiny errores;
-   private TableStack symbolStack;
    public void syntax_error(Symbol unidadLexica) {
      errores.errorSintactico((UnidadLexica)unidadLexica);
    }
@@ -24,8 +23,6 @@ init with {:
    errores = new GestionErroresTiny();
    AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
    alex.fijaGestionErrores(errores);
-
-   symbolStack = new TableStack();
 :};
 
 terminal OPERATOR_ADD;
@@ -127,7 +124,6 @@ S ::= INSTRUCTION_OR_FUNCTION: Val_Is
 
 INSTRUCTION_OR_FUNCTION ::= INSTRUCTION: Val_I
                             {: ArrayList<Instruction> instrs = new ArrayList<Instruction>();
-                               Val_I.bind();
                                instrs.add(Val_I);
                                RESULT = instrs;
                             :};
@@ -138,7 +134,7 @@ INSTRUCTION_OR_FUNCTION ::= SCOPE: Val_Scope
                             :};
 // INSTRUCTION_OR_FUNCTION ::= _FUNCTION | _FUNCTION INSTRUCTION_OR_FUNCTION ;
 INSTRUCTION_OR_FUNCTION ::= INSTRUCTION_OR_FUNCTION: Val_Is INSTRUCTION: Val_I 
-                            {: Val_I.bind();
+                            {:
                                Val_Is.add(Val_I);
                                RESULT = Val_Is;
                             :};
@@ -150,38 +146,36 @@ INSTRUCTION_OR_FUNCTION ::= INSTRUCTION_OR_FUNCTION: Val_Is SCOPE: Val_Scope
 
 SCOPE ::= CURLY_OPEN INSTRUCTION_OR_FUNCTION: Val_Is CURLY_CLOSE
           {:
-             symbolStack.push();
              InstructionBlock block = new InstructionBlock(Val_Is);
              RESULT = block;
-             symbolStack.pop();
           :};
 SCOPE ::= CURLY_OPEN CURLY_CLOSE
-          {: symbolStack.push(); RESULT = new EmptyScope(); symbolStack.pop(); :};
+          {: RESULT = new EmptyScope(); :};
 
 INSTRUCTIONS ::= INSTRUCTIONS: Val_Is INSTRUCTION: Val_I 
-                 {: Val_I.bind();
+                 {: 
                     Val_Is.add(Val_I);
                     RESULT = Val_Is;
                  :};
 INSTRUCTIONS ::= INSTRUCTION: Val_I
-                 {: Val_I.bind();
+                 {: 
                     ArrayList<Instruction> instrs = new ArrayList<Instruction>();
                     instrs.add(Val_I);
                     RESULT = instrs;
                  :};
 INSTRUCTION ::= WHILE_LOOP: Val_I
-                {: Val_I.bind(); RESULT = Val_I; :};
+                {: RESULT = Val_I; :};
 INSTRUCTION ::= FOR_LOOP: Val_I
                 {: RESULT = Val_I; :};
 INSTRUCTION ::= DECLARATION: Val_I SEMI_COLON
-                {: Val_I.bind(); RESULT = Val_I; :};
+                {: RESULT = Val_I; :};
 // INSTRUCTION ::= F_CALL SEMI_COLON ;
 INSTRUCTION ::= Sif0: Val_I
-                {: Val_I.bind(); RESULT = Val_I; :};
+                {:RESULT = Val_I; :};
 INSTRUCTION ::= ASSIGNATION: Val_A SEMI_COLON
-                {: Val_I.bind(); RESULT = Val_A; :};
+                {: RESULT = Val_A; :};
 INSTRUCTION ::= EXP0: Val_Exp SEMI_COLON
-                {: Val_Exp.bind(); RESULT = new FloatingExpression(Val_Exp); :};
+                {:RESULT = new FloatingExpression(Val_Exp); :};
 
 
 Sif0 ::= IF PARENTH_OPEN EXP0: Val_Exp PARENTH_CLOSE CURLY_OPEN INSTRUCTIONS: Val_Is CURLY_CLOSE Sif1: Val_Elseif
@@ -335,7 +329,7 @@ MORE_ARRCONTENTS ::= /* EPSILON */
                 :};
 
 ARRAY_ACCESS ::= BRACKET_OPEN EXP0: Val_Idx BRACKET_CLOSE ARRAY_ACCESS: Val_Access
-                 {: Val_Access.addLast(Val_Idx);
+                 {: Val_Access.addFirst(Val_Idx);
                     RESULT = Val_Access;
                  :};
 ARRAY_ACCESS ::= BRACKET_OPEN EXP0: Val_Idx BRACKET_CLOSE

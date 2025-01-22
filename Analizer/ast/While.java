@@ -9,6 +9,14 @@ public class While extends Instruction {
         this.exp = exp;
         this.instructions = insts;
     }
+    public void bind(TableStack table, ArrayList<String> binding_errors) {
+        exp.bind(table, binding_errors);
+        table.push();
+        for(Instruction i : instructions) {
+            i.bind(table, binding_errors);
+        }
+        table.pop();
+    }
     public KindI kind() {
         return KindI.WHILE;
     }

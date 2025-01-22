@@ -1,10 +1,10 @@
 package ast;
 
-public class Symbol {
+public class UnitSymbol {
     private String id;
     private Instruction dec;
 
-    public Symbol(String id, Instruction dec) {
+    public UnitSymbol(String id, Instruction dec) {
         this.id = id;
         this.dec = dec;
     }

@@ -7,6 +7,11 @@ public class Else extends Instruction {
     public Else(ArrayList<Instruction> body) {
         this.body = body;
     }
+    public void bind(TableStack table, ArrayList<String> binding_errors) {
+        for(Instruction ins : body) {
+            ins.bind(table, binding_errors);
+        }
+    }
     public KindI kind() {
         return KindI.ELSE;
     }
