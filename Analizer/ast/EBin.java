@@ -40,6 +40,6 @@ public class EBin extends E {
           case GEQ:   opstr = ">="; break;
           case LEQ:   opstr = "<="; break;
         }
-        return "\n" + op.toString() + " " + opstr + " " + opnd2.toString();
+        return "\n" + opnd1.toString() + " " + opstr + " " + opnd2.toString();
     }
  }

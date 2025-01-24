@@ -169,25 +169,75 @@ INSTRUCTION ::= FOR_LOOP: Val_I
                 {: RESULT = Val_I; :};
 INSTRUCTION ::= DECLARATION: Val_I SEMI_COLON
                 {: RESULT = Val_I; :};
+INSTRUCTION ::= DECLARATION: Val_I
+{:
+   Main.push_syntax_error("Ç2000: missing ';' after end of statement.");
+   String at_error = "   At: " + Val_I.toString().replace('\n', ' ');
+   Main.push_syntax_error(at_error);
+   RESULT = Val_I;
+:};
+
 // INSTRUCTION ::= F_CALL SEMI_COLON ;
 INSTRUCTION ::= Sif0: Val_I
                 {:RESULT = Val_I; :};
+                
 INSTRUCTION ::= ASSIGNATION: Val_A SEMI_COLON
-                {: RESULT = Val_A; :};
+{:
+   RESULT = Val_A;
+:};
+
+INSTRUCTION ::= ASSIGNATION: Val_A
+{:
+   Main.push_syntax_error("Ç2000: missing ';' after end of statement.");
+   String at_error = "   At: " + Val_A.toString().replace('\n', ' ');
+   Main.push_syntax_error(at_error);
+   RESULT = Val_A;
+:};
+
 INSTRUCTION ::= EXP0: Val_Exp SEMI_COLON
                 {:RESULT = new FloatingExpression(Val_Exp); :};
 
 
 Sif0 ::= IF PARENTH_OPEN EXP0: Val_Exp PARENTH_CLOSE CURLY_OPEN INSTRUCTIONS: Val_Is CURLY_CLOSE Sif1: Val_Elseif
          {: RESULT = new If(Val_Exp, Val_Elseif, Val_Is); :};
+Sif0 ::= IF PARENTH_OPEN EXP0: Val_Exp CURLY_OPEN INSTRUCTIONS: Val_Is CURLY_CLOSE Sif1: Val_Elseif
+         {: RESULT = new If(Val_Exp, Val_Elseif, Val_Is);
+         Main.push_syntax_error("Ç2001: missing ')' after if statement.");
+         String at_error = "   At: " + RESULT.toString().replace('\n', ' ');
+         Main.push_syntax_error(at_error);         
+          :};
+Sif0 ::= IF PARENTH_OPEN EXP0: Val_Exp PARENTH_CLOSE CURLY_OPEN /*EPSILON*/ CURLY_CLOSE Sif1: Val_Elseif
+         {: RESULT = new If(Val_Exp, Val_Elseif, new ArrayList<Instruction>()); :};
+Sif0 ::= IF PARENTH_OPEN EXP0: Val_Exp CURLY_OPEN /*EPSILON*/ CURLY_CLOSE Sif1: Val_Elseif
+         {: RESULT = new If(Val_Exp, Val_Elseif, new ArrayList<Instruction>());
+         Main.push_syntax_error("Ç2001: missing ')' after if statement.");
+         String at_error = "   At: " + RESULT.toString().replace('\n', ' ');
+         Main.push_syntax_error(at_error);         
+          :};
 Sif1 ::= Sif2: Val_Else
          {: RESULT = Val_Else; :};
 Sif1 ::= ELSEIF PARENTH_OPEN EXP0: Val_Exp PARENTH_CLOSE CURLY_OPEN INSTRUCTIONS: Val_Is CURLY_CLOSE Sif1: Val_Elseif
          {: RESULT = new If(Val_Exp, Val_Elseif, Val_Is); :};
+Sif1 ::= ELSEIF PARENTH_OPEN EXP0: Val_Exp CURLY_OPEN INSTRUCTIONS: Val_Is CURLY_CLOSE Sif1: Val_Elseif
+         {: RESULT = new If(Val_Exp, Val_Elseif, Val_Is);
+         Main.push_syntax_error("Ç2001: missing ')' after if statement.");
+         String at_error = "   At: " + RESULT.toString().replace('\n', ' ');
+         Main.push_syntax_error(at_error);         
+          :};
+Sif1 ::= ELSEIF PARENTH_OPEN EXP0: Val_Exp PARENTH_CLOSE CURLY_OPEN /*EPSILON*/ CURLY_CLOSE Sif1: Val_Elseif
+         {: RESULT = new If(Val_Exp, Val_Elseif, new ArrayList<Instruction>()); :};
+Sif1 ::= ELSEIF PARENTH_OPEN EXP0: Val_Exp CURLY_OPEN /*EPSILON*/ CURLY_CLOSE Sif1: Val_Elseif
+         {: RESULT = new If(Val_Exp, Val_Elseif, new ArrayList<Instruction>());
+         Main.push_syntax_error("Ç2001: missing ')' after if statement.");
+         String at_error = "   At: " + RESULT.toString().replace('\n', ' ');
+         Main.push_syntax_error(at_error);         
+          :};
 Sif2 ::= /* EPSILON */
          {: RESULT = new Empty(); :};
 Sif2 ::= ELSE1 ELSE2 CURLY_OPEN INSTRUCTIONS: Val_Is CURLY_CLOSE
          {: RESULT = new Else(Val_Is); :};
+Sif2 ::= ELSE1 ELSE2 CURLY_OPEN /*EPSILON*/ CURLY_CLOSE
+         {: RESULT = new Else(new ArrayList<Instruction>()); :};
 
 WHILE_LOOP ::= WHILE PARENTH_OPEN EXP0: Val_Exp PARENTH_CLOSE CURLY_OPEN INSTRUCTIONS: Val_Is CURLY_CLOSE
                {: RESULT = new While(Val_Exp, Val_Is); :};
@@ -291,10 +341,10 @@ EXP6 ::= OPERATOR_PP EXP6: Val_Exp
          {: RESULT = new EUni(Val_Exp, UniOps.PP_PRE); :};
 EXP6 ::= OPERATOR_MM EXP6: Val_Exp
          {: RESULT = new EUni(Val_Exp, UniOps.MM_PRE); :};
-EXP6 ::= EXP7: Val_Exp OPERATOR_PP
+/* EXP6 ::= EXP7: Val_Exp OPERATOR_PP
          {: RESULT = new EUni(Val_Exp, UniOps.PP_POST); :};
 EXP6 ::= EXP7: Val_Exp OPERATOR_MM
-         {: RESULT = new EUni(Val_Exp, UniOps.MM_POST); :};
+         {: RESULT = new EUni(Val_Exp, UniOps.MM_POST); :}; */
 EXP6 ::= EXP7: Val_Exp7
          {: RESULT = Val_Exp7; :};
 

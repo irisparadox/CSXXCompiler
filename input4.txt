@@ -1,5 +1,6 @@
+my_int = 1....5...;
 {
-	sencer64 my_int;
+	sencer64 my_int
 	_Myint = arr[5];
 }
 {
@@ -11,10 +12,9 @@
 	}
 }
 my_int = 20;
+
 nat8 my_uint = 10;
 
-enCasDe(my_uint {
+enCasDe(my_uint) {
 	sencer32 my_int4 = 10;
-} si no {
-	// foo
 }

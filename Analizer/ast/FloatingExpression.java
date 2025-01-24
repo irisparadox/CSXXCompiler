@@ -13,6 +13,6 @@ public class FloatingExpression extends Instruction {
         return KindI.FLOATING_EXPRESSION;
     }
     public String toString() {
-        return "\nEXPRESSION: " + expr.toString();
+        return "\n" + expr.toString();
     }
 }

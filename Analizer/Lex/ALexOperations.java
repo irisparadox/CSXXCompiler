@@ -272,4 +272,11 @@ public class ALexOperations {
   public UnidadLexica unidadEof() {
     return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.EOF);
   }
+
+  public void error(String message) {
+    System.err.println("\nCompilation terminated due to errors.\n");
+    System.err.println(message);
+    System.err.println("   At: " + alex.lexema() + " (" + alex.fila() + "." + alex.columna() + ")");
+    System.exit(1);
+  }
 }

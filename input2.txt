@@ -1,3 +1,9 @@
+nat64 suma;
+sencer64[10] arr;
+sencer64[10] arr2;
+sencer64[10] arr3;
+sencer32 my_int;
+
 arr = 5;
 suma = 10 + 5 * 20 / arr ;
 
@@ -15,12 +21,12 @@ per (suma <= 10; ++suma) {
 }
 
 enCasDe(suma <= 2) {
-	suma++;
+	++suma;
 	enCasDe(arr || suma) {
 		suma = suma & arr;
 	}
 } enAltreCas(suma == 2) {
-	suma--;
+	--suma;
 } enAltreCas(suma >= 2) {
 	suma = 2;
 } si no {

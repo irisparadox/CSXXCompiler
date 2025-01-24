@@ -81,6 +81,7 @@ identificator  = ({letter}|_)(_|{letter}|{digit})*
 number_nat     = {whole_digit}
 number_int     = [\+\-]?{whole_digit}
 number_float   = [\+\-]?{whole_digit}\.{decimal_digit}
+wrong_float    = [\+\-]?{whole_digit}\.((\.)|{decimal_digit})*
 number_bin     = [\+\-]?0b{binary_digit}+
 number_hex     = [\+\-]?0x{hex_digit}+
 rval_char      = \'([^\'\\]|\\[\'\\bfnrt])\'
@@ -94,9 +95,13 @@ uint32         = nat32
 uint64         = nat64
 
 int8           = sencer8
+wrong_byte     = int8|char|byte
 int16          = sencer16
+wrong_short    = int16|short
 int32          = sencer32
+wrong_int      = int32|int
 int64          = sencer64
+wrong_long     = int64|long
 
 float32        = puntFlotant32
 float64        = puntFlotant64
@@ -165,6 +170,7 @@ function       = funcio
 {number_nat}        {return ops.number_nat_token();}
 {number_int}        {return ops.number_int_token();}
 {number_float}      {return ops.number_float_token();}
+{wrong_float}       {ops.error("Ç1001: too many decimal points in number.");}
 {number_bin}        {return ops.number_bin_token();}
 {number_hex}        {return ops.number_hex_token();}
 {rval_char}         {return ops.rval_char_token();}
@@ -181,6 +187,10 @@ function       = funcio
 {int16}             {return ops.int16_token();} 
 {int32}             {return ops.int32_token();} 
 {int64}             {return ops.int64_token();} 
+{wrong_byte}        {ops.error("Ç1002: unknown type. Perhaps you meant to speak in catalá (sencer8).");}
+{wrong_short}       {ops.error("Ç1002: unknown type. Perhaps you meant to speak in catalá (sencer16).");}
+{wrong_int}         {ops.error("Ç1002: unknown type. Perhaps you meant to speak in catalá (sencer32).");}
+{wrong_long}        {ops.error("Ç1002: unknown type. Perhaps you meant to speak in catalá (sencer64).");}
 
 {float32}           {return ops.float32_token();} 
 {float64}           {return ops.float64_token();} 
